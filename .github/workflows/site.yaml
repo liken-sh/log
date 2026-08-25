@@ -108,9 +108,10 @@ jobs:
           }
           echo "checking the front page lists the posts"
           fetch https://log.liken.sh/ | grep -q 'class="posts"'
+          # Pages serves the feed as plain application/xml, so the
+          # check reads the document itself for the rss root.
           echo "checking the feed"
-          fetch --head https://log.liken.sh/index.xml \
-            | grep -qi "content-type: application/rss+xml"
+          fetch https://log.liken.sh/index.xml | grep -q "<rss"
           echo "checking the markdown twin"
           fetch --head https://log.liken.sh/index.md \
             | grep -qi "content-type: text/markdown"
