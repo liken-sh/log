@@ -1,0 +1,9 @@
+{{- /* A post's date line, shared by the front page and the post
+page so the two never disagree. A backfilled post shows both days:
+the day it is about, and the day it was written. */ -}}
+<p class="dates">
+  <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2006-01-02" }}</time>
+  {{- with .Params.backfilled }}
+  <span class="backfilled">(backfilled {{ time.AsTime . | time.Format "2006-01-02" }})</span>
+  {{- end }}
+</p>

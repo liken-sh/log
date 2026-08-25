@@ -1,7 +1,16 @@
 {{ define "main" }}
-{{- /* The front page is the log itself: the home page's own
-content opens it, and the posts follow, newest first. The theme's
-home.html renders content alone, so this override adds the list. */ -}}
+{{- /* The front page is the log itself, rendered in full: every
+post, newest first, the way a devlog reads. The home page's own
+content, when it exists, opens the page above the posts. Each post's
+heading links to its permanent page. */ -}}
 {{ .Content }}
-{{ partial "postlist.html" .Site.RegularPages.ByDate.Reverse }}
+{{ range site.RegularPages.ByDate.Reverse }}
+<article class="post">
+  <header>
+    <h2><a href="{{ .RelPermalink }}">{{ .Title }}</a></h2>
+    {{ partial "postdates.html" . }}
+  </header>
+  {{ .Content }}
+</article>
+{{ end }}
 {{ end }}

@@ -4,15 +4,19 @@ template renders them. The theme's page.html renders content alone,
 because a manual page carries its own heading in the body. Every
 page on this site is a post, so the override is site-wide. */ -}}
 <article>
-  <h1>{{ .Title }}</h1>
-  {{- /* A backfilled post shows both days: the day it is about, and
-  the day it was written. */ -}}
-  <p>
-    <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2006-01-02" }}</time>
-    {{- with .Params.backfilled }}
-    <span class="backfilled">(backfilled {{ time.AsTime . | time.Format "2006-01-02" }})</span>
-    {{- end }}
-  </p>
+  <header>
+    <h1>{{ .Title }}</h1>
+    {{ partial "postdates.html" . }}
+  </header>
   {{ .Content }}
 </article>
+{{- /* The chronological neighbors, by title. Hugo sorts regular
+pages newest first, and in that order .Next is the newer post and
+.Prev the older one. */ -}}
+{{ if or .Prev .Next }}
+<nav class="post-nav">
+  {{ with .Prev }}<a class="older" href="{{ .RelPermalink }}" rel="prev">&larr; {{ .Title }}<br><time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2006-01-02" }}</time></a>{{ else }}<span></span>{{ end }}
+  {{ with .Next }}<a class="newer" href="{{ .RelPermalink }}" rel="next">{{ .Title }} &rarr;<br><time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2006-01-02" }}</time></a>{{ end }}
+</nav>
+{{ end }}
 {{ end }}

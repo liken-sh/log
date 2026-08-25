@@ -7,17 +7,26 @@
 # and the stylesheet that every liken site uses, so this site reads
 # as part of the same family as liken.sh.
 baseURL: https://log.liken.sh/
-title: log.liken.sh
+title: liken devlog
 theme: brand
 
-# The theme's nav renders a repository entry from this.
+# A year section's list page titles itself by its directory name.
+# Without this, Hugo pluralizes "2026" into "2026s" in the
+# breadcrumbs and the browser tab.
+pluralizeListTitles: false
+
+# The theme's nav renders a repository entry from this, and the Atom
+# feed names its entries' author.
 params:
   repository: https://github.com/liken-sh/log
+  author: Chris Guidry
 
 # No taxonomies: the log is a single stream, not a tagged archive.
-# The manuals also disable rss, but a devlog keeps its feed, because
-# a feed reader is how a devlog's audience subscribes.
-disableKinds: [taxonomy, term]
+# The manuals have no feed, but a devlog needs one, because a feed
+# reader is how a devlog's audience subscribes. The feed is Atom,
+# declared as its own output format below, and the rss kind is off
+# so the site serves exactly one feed.
+disableKinds: [taxonomy, term, rss]
 
 # A post lives at YYYY/MM/DD-slug.md in the repository root, and its
 # URL is /YYYY/MM/DD/slug/. The date tokens come from the post's
@@ -52,15 +61,26 @@ module:
 # by side, so the Markdown twin of / is /index.md. The theme renders
 # the twin, but only when the site declares this format; without it,
 # the site builds as HTML alone (themes/brand/README.md).
+# Atom is not one of Hugo's built-in media types, so the feed's type
+# is declared here and the output format below names it. baseName
+# atom with the xml suffix makes the file /atom.xml.
+mediaTypes:
+  application/atom+xml:
+    suffixes: [xml]
+
 outputFormats:
   markdown:
     mediaType: text/markdown
     baseName: index
     isPlainText: true
+  atom:
+    mediaType: application/atom+xml
+    baseName: atom
+    rel: alternate
 
-# One feed, at /index.xml. The year and month sections are archive
-# pages and carry no feed of their own.
+# One feed, at /atom.xml, rendered by layouts/home.atom.xml. The year
+# sections are archive pages and carry no feed of their own.
 outputs:
-  home: [html, rss, markdown]
+  home: [html, atom, markdown]
   section: [html, markdown]
   page: [html, markdown]
