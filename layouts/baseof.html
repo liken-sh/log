@@ -1,0 +1,127 @@
+<!--
+This file shadows the brand theme's baseof.html, copied whole,
+because the theme offers no hook for site CSS. The devlog's own
+rules sit at the end of the style block, marked "devlog only". When
+the theme's shell changes, this copy must be re-taken; better, give
+the theme a head block and delete this file.
+-->
+<!--
+This is the shared shell around every HTML page, for every site in
+the liken family: the manual at liken.sh and the operators' sites.
+The colors, the type, and the common elements come from the shared
+stylesheet in this repository. The release channel's pages inline
+the same stylesheet, so every liken page reads as one place. The
+rules after it are the ones only a documentation site needs: a
+one-line nav, breadcrumbs, a table of contents, and a sidebar. None
+of it uses JavaScript.
+
+Two things orient the reader. Every page below the front page has
+a breadcrumb trail, built from the page's ancestors. When the site
+has a /docs section, every page also gets a sidebar with the
+manual's whole tree, the front page included. The sidebar appears
+on screens wide enough to hold one; on narrow screens the
+breadcrumbs alone orient the reader. The sidebar's heading names
+the project whose manual this is, taken from the last path segment
+of the site's repository parameter. The bluetooth operator's site
+therefore heads its sidebar with that operator's name rather than
+liken's. The sidebar and breadcrumbs exist only in the HTML: a
+page's Markdown twin is the authored file, navigation and all
+chrome excluded.
+-->
+{{- $docs := .Site.GetPage "/docs" -}}
+{{- $project := "" -}}
+{{- with site.Params.repository -}}
+{{- $project = path.Base . -}}
+{{- end -}}
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{ if not .IsHome }}{{ .Title }} — {{ end }}{{ .Site.Title }}</title>
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" href="/icon.svg" type="image/svg+xml">
+<style>
+{{ with resources.Get "liken.css" }}{{ .Content | safeCSS }}{{ end }}
+  nav.site { margin-bottom: 2rem; }
+  nav.site a { margin-right: 1rem; }
+  nav.crumbs { font-size: 0.9em; margin-bottom: 1.5rem; }
+  nav.crumbs span[aria-current] { color: var(--ink-muted); }
+  /* A figure is a floated aside: the image is at the right margin
+     with its caption under it, and the text wraps beside it. The
+     width matches the mark on the repository's README, small enough
+     to leave the text column readable on a phone. */
+  figure { float: right; width: 8rem; margin: 0 0 1rem 1.5rem; }
+  figure img { width: 100%; height: auto; }
+  figcaption { font-size: 0.75em; font-style: italic; line-height: 1.4;
+               color: var(--ink-muted); text-align: center; }
+  nav.toc { font-size: 0.9em; background: var(--panel);
+            padding: 0.6rem 1rem; margin: 1.5rem 0; }
+  /* A wide listing, such as command output, reads best unwrapped.
+     The text keeps its measure. A pre that needs more room is
+     centered on the column and widens toward the viewport
+     edges, so it uses the page's margins before it scrolls. Only a
+     site with no manual gets this: where the sidebar exists it owns
+     the left margin, so pre blocks stay inside the text column and
+     scroll there. */
+  body:not(.manual) main pre {
+    width: fit-content;
+    min-width: 100%;
+    max-width: min(100vw - 3rem, 80rem);
+    margin-left: 50%;
+    transform: translateX(-50%);
+  }
+  body:not(.manual) main pre code { font-size: 0.875em; }
+  nav.toc ul { list-style: none; margin: 0; padding-left: 0; }
+  nav.toc ul ul { padding-left: 1rem; }
+  /* The sidebar appears only when the viewport can hold it beside
+     the text column without squeezing either. Below that width it
+     stays hidden, and the breadcrumbs orient the reader. */
+  aside { display: none; }
+  @media (min-width: 70rem) {
+    body.manual { max-width: 63rem; display: grid;
+                  grid-template-columns: 15rem minmax(0, 44rem);
+                  column-gap: 3rem; align-items: start; }
+    body.manual > nav.site { grid-column: 1 / -1; }
+    body.manual > footer { grid-column: 2; }
+    body.manual > aside { display: block; position: sticky; top: 2rem;
+                          font-size: 0.9em; }
+    aside p { margin: 0 0 0.5rem; }
+    aside ul { list-style: none; padding-left: 1rem; margin: 0 0 1rem; }
+    aside li { margin: 0.2rem 0; }
+    aside a[aria-current] { font-weight: 600; text-decoration: none; }
+  }
+  /* Devlog only: an image in a post never exceeds the text column. */
+  main img { max-width: 100%; height: auto; }
+</style>
+</head>
+<body{{ if $docs }} class="manual"{{ end }}>
+{{ partial "nav.html" . }}
+{{ with $docs }}
+<aside>
+  <p><a href="{{ .RelPermalink }}"{{ if eq $.Page . }} aria-current="page"{{ end }}>{{ with $project }}<code>{{ . }}</code> manual{{ else }}Manual{{ end }}</a></p>
+  {{ range .Sections }}
+  <p><a href="{{ .RelPermalink }}"{{ if eq $.Page .Page }} aria-current="page"{{ end }}>{{ .Title }}</a></p>
+  <ul>
+    {{ range .RegularPages }}
+    <li><a href="{{ .RelPermalink }}"{{ if eq $.Page .Page }} aria-current="page"{{ end }}>{{ .Title }}</a></li>
+    {{ end }}
+  </ul>
+  {{ end }}
+</aside>
+{{ end }}
+<main>
+{{ if not .IsHome }}
+<nav class="crumbs">
+  {{ range .Ancestors.Reverse }}<a href="{{ .RelPermalink }}">{{ .Title }}</a> / {{ end }}<span aria-current="page">{{ .Title }}</span>
+</nav>
+{{ end }}
+{{ block "main" . }}{{ end }}
+</main>
+<footer>
+  {{ with .OutputFormats.Get "markdown" -}}
+  <a href="{{ .RelPermalink }}">This page as Markdown</a>
+  {{- end }}
+</footer>
+</body>
+</html>

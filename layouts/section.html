@@ -1,0 +1,12 @@
+{{ define "main" }}
+{{- /* The theme's section.html lists pages by weight and shows no
+dates. A log lists by date, newest first, so this overrides it. The
+sections here are the year directories, so /2026/ is that year's
+archive. A month directory renders no page of its own unless it
+gains an _index.md. */ -}}
+{{ .Content }}
+{{- /* Posts nest in dated directories (2026/07/04-slug.md), so the
+listing must recurse; .RegularPages stops at the section's own
+children. */ -}}
+{{ partial "postlist.html" .RegularPagesRecursive.ByDate.Reverse }}
+{{ end }}

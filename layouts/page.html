@@ -1,0 +1,18 @@
+{{ define "main" }}
+{{- /* A post's title and date live in its front matter, so this
+template renders them. The theme's page.html renders content alone,
+because a manual page carries its own heading in the body. Every
+page on this site is a post, so the override is site-wide. */ -}}
+<article>
+  <h1>{{ .Title }}</h1>
+  {{- /* A backfilled post shows both days: the day it is about, and
+  the day it was written. */ -}}
+  <p>
+    <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2006-01-02" }}</time>
+    {{- with .Params.backfilled }}
+    <span class="backfilled">(backfilled {{ time.AsTime . | time.Format "2006-01-02" }})</span>
+    {{- end }}
+  </p>
+  {{ .Content }}
+</article>
+{{ end }}

@@ -1,0 +1,7 @@
+{{ define "main" }}
+{{- /* The front page is the log itself: the home page's own
+content opens it, and the posts follow, newest first. The theme's
+home.html renders content alone, so this override adds the list. */ -}}
+{{ .Content }}
+{{ partial "postlist.html" .Site.RegularPages.ByDate.Reverse }}
+{{ end }}

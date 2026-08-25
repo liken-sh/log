@@ -1,0 +1,5 @@
+# Hugo's build output, its asset cache, and its single-process lock.
+/dist/
+/public/
+/resources/
+/.hugo_build.lock

@@ -1,0 +1,11 @@
+{{- /* The one list of posts, shared by the home page and the posts
+section, so the two never disagree. Callers pass the pages already
+ordered. */ -}}
+<ul class="posts">
+  {{- range . }}
+  <li>
+    <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2006-01-02" }}</time>
+    <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+  </li>
+  {{- end }}
+</ul>

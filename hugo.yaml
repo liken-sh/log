@@ -1,0 +1,66 @@
+# The site's configuration. The site is the liken devlog, served at
+# log.liken.sh. Chris writes every post; AGENTS.md carries the content
+# rule.
+#
+# The theme is the shared brand repository, taken as a git submodule
+# at themes/brand. It provides the page shell, the top nav, the mark,
+# and the stylesheet that every liken site uses, so this site reads
+# as part of the same family as liken.sh.
+baseURL: https://log.liken.sh/
+title: log.liken.sh
+theme: brand
+
+# The theme's nav renders a repository entry from this.
+params:
+  repository: https://github.com/liken-sh/log
+
+# No taxonomies: the log is a single stream, not a tagged archive.
+# The manuals also disable rss, but a devlog keeps its feed, because
+# a feed reader is how a devlog's audience subscribes.
+disableKinds: [taxonomy, term]
+
+# A post lives at YYYY/MM/DD-slug.md in the repository root, and its
+# URL is /YYYY/MM/DD/slug/. The date tokens come from the post's
+# date, and the last token is the post's slug from front matter,
+# falling back to the file name (which carries the DD- prefix).
+# Permalink patterns key on the top-level section, which here is the
+# year, so each new year adds one line here. This is the only yearly
+# edit: without its line, a year's posts still build, but at their
+# path-derived URLs, without the day segment.
+permalinks:
+  page:
+    "2026": /:year/:month/:day/:slugorcontentbasename/
+
+# The repository has no content/ directory: the year directories sit
+# at the root, and this mount picks up every 20xx directory as
+# content, so the repository reads as the log it is. A new year
+# needs no new mount, only its permalink line above. Declaring a
+# mount replaces the defaults for its target, so static and layouts
+# come back explicitly.
+module:
+  mounts:
+    - source: .
+      target: content
+      includeFiles: /20[0-9][0-9]/**
+    - source: static
+      target: static
+    - source: layouts
+      target: layouts
+
+# Every page renders twice, once as HTML for people and once as the
+# authored Markdown for agents and scripts. The two files land side
+# by side, so the Markdown twin of / is /index.md. The theme renders
+# the twin, but only when the site declares this format; without it,
+# the site builds as HTML alone (themes/brand/README.md).
+outputFormats:
+  markdown:
+    mediaType: text/markdown
+    baseName: index
+    isPlainText: true
+
+# One feed, at /index.xml. The year and month sections are archive
+# pages and carry no feed of their own.
+outputs:
+  home: [html, rss, markdown]
+  section: [html, markdown]
+  page: [html, markdown]
