@@ -106,8 +106,8 @@ jobs:
             curl --fail --silent --retry 5 --retry-delay 3 \
               --retry-all-errors "$@"
           }
-          echo "checking the front page lists the posts"
-          fetch https://log.liken.sh/ | grep -q 'class="posts"'
+          echo "checking the front page renders the posts"
+          fetch https://log.liken.sh/ | grep -q 'article class="post"'
           # Pages serves the feed as plain application/xml, so the
           # check reads the document itself for the Atom root.
           echo "checking the feed"
