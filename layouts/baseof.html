@@ -118,26 +118,42 @@ chrome excluded.
   nav.post-nav a { text-decoration: none; }
   nav.post-nav a:hover { text-decoration: underline; }
   nav.post-nav time { color: var(--ink-muted); font-size: 0.9em; }
+  /* The sidebar's recent posts open with a compact month-day date
+     in the muted ink; the archive line below the list carries the
+     years. A title that wraps hangs past the date. The list sits
+     flush with its heading, because everything in this sidebar is
+     the log; the manuals' indent marks a tree this list is not. */
+  aside ul { padding-left: 0; }
+  aside li { margin-bottom: 0.4rem; padding-left: 3.2em; text-indent: -3.2em; }
+  aside li a { text-decoration: none; }
+  aside li a:hover { text-decoration: underline; }
+  aside li time { color: var(--ink-muted); font-variant-numeric: tabular-nums; }
   footer { margin-top: 3rem; padding-top: 1rem;
            border-top: 1px solid var(--rule); font-size: 0.9em; }
   footer a { margin-right: 1.5rem; }
 </style>
 </head>
-<body{{ if $docs }} class="manual"{{ end }}>
+{{- /* The devlog has no /docs section, so the theme would show no
+sidebar. The manual class still applies, because the sidebar grid
+and its styles come with it, and this aside replaces the manual
+tree with the log's own navigation: the recent posts by title, the
+year archives, and the feed. */ -}}
+<body class="manual">
 {{ partial "nav.html" . }}
-{{ with $docs }}
 <aside>
-  <p><a href="{{ .RelPermalink }}"{{ if eq $.Page . }} aria-current="page"{{ end }}>{{ with $project }}<code>{{ . }}</code> manual{{ else }}Manual{{ end }}</a></p>
-  {{ range .Sections }}
-  <p><a href="{{ .RelPermalink }}"{{ if eq $.Page .Page }} aria-current="page"{{ end }}>{{ .Title }}</a></p>
+  <p><a href="/"{{ if .IsHome }} aria-current="page"{{ end }}>liken devlog</a></p>
   <ul>
-    {{ range .RegularPages }}
-    <li><a href="{{ .RelPermalink }}"{{ if eq $.Page .Page }} aria-current="page"{{ end }}>{{ .Title }}</a></li>
+    {{ range first 10 site.RegularPages.ByDate.Reverse }}
+    <li><a href="{{ .RelPermalink }}"{{ if eq $.Page .Page }} aria-current="page"{{ end }}><time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "01-02" }}</time> {{ .Title }}</a></li>
     {{ end }}
   </ul>
-  {{ end }}
+  <p class="archive">archive:
+    {{- range site.Home.Sections.ByTitle.Reverse }}
+    <a href="{{ .RelPermalink }}"{{ if eq $.Page .Page }} aria-current="page"{{ end }}>{{ .Title }}</a>
+    {{- end }}
+  </p>
+  <p><a href="/atom.xml">subscribe</a></p>
 </aside>
-{{ end }}
 <main>
 {{ if not .IsHome }}
 {{- /* The devlog's breadcrumbs start at the year, not the site: the
