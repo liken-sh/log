@@ -120,11 +120,14 @@ chrome excluded.
   nav.post-nav time { color: var(--ink-muted); font-size: 0.9em; }
   /* The sidebar's recent posts open with a compact month-day date
      in the muted ink; the archive line below the list carries the
-     years. A title that wraps hangs past the date. The list sits
-     flush with its heading, because everything in this sidebar is
-     the log; the manuals' indent marks a tree this list is not. */
+     years. Each entry stays on one line: a long title ellipsizes,
+     and the anchor's title attribute holds the whole name for the
+     hover. The list sits flush with its heading, because everything
+     in this sidebar is the log; the manuals' indent marks a tree
+     this list is not. */
   aside ul { padding-left: 0; }
-  aside li { margin-bottom: 0.4rem; padding-left: 3.2em; text-indent: -3.2em; }
+  aside li { margin-bottom: 0.4rem; white-space: nowrap;
+             overflow: hidden; text-overflow: ellipsis; }
   aside li a { text-decoration: none; }
   aside li a:hover { text-decoration: underline; }
   aside li time { color: var(--ink-muted); font-variant-numeric: tabular-nums; }
@@ -144,7 +147,7 @@ year archives, and the feed. */ -}}
   <p><a href="/"{{ if .IsHome }} aria-current="page"{{ end }}>liken devlog</a></p>
   <ul>
     {{ range first 10 site.RegularPages.ByDate.Reverse }}
-    <li><a href="{{ .RelPermalink }}"{{ if eq $.Page .Page }} aria-current="page"{{ end }}><time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "01-02" }}</time> {{ .Title }}</a></li>
+    <li><a href="{{ .RelPermalink }}" title="{{ .Title }}"{{ if eq $.Page .Page }} aria-current="page"{{ end }}><time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "01-02" }}</time> {{ .Title }}</a></li>
     {{ end }}
   </ul>
   <p class="archive">archive:
