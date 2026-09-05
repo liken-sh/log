@@ -3,6 +3,16 @@
 This repository is the liken devlog, a written journal of the project,
 served at log.liken.sh. Chris writes every post.
 
+## Ground rules for AI contributions
+
+Chris is the only author of the posts. An AI agent is the copyeditor
+and the research assistant, and nothing more: it fixes typos, checks
+facts, finds links, takes screenshots, gathers numbers, and keeps the
+site building. It writes no prose for a post, and it does not restyle
+Chris's prose toward any house rule. The `devlog-copyedit` skill
+under `.agents/skills` (linked from `.claude/skills`) carries the
+full rules; use it for any work on a post.
+
 ## The content rule
 
 Do not write, draft, or edit the body or the title of a post. There
@@ -15,6 +25,9 @@ When Chris asks in the current conversation, and only then, you may:
   list. Do not apply a fix unless Chris says to apply it.
 * Give a quote in your own voice for Chris to place. Chris attributes
   the quote to you in the post.
+* Resolve the `[llm: ...]` tags in a draft: links, fact checks, dates,
+  commits, and screenshots. The `devlog-copyedit` skill under
+  `.agents/skills` has the full rules for this work.
 
 ## Everything else
 
