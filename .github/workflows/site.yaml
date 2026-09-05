@@ -49,6 +49,19 @@ jobs:
       - uses: actions/setup-go@v6
         with:
           go-version-file: go.mod
+          cache-dependency-path: go.sum
+
+      # setup-go saves its cache only when its key misses, and the key
+      # tracks go.sum, so between two bumps of that file the Go build
+      # cache inside the entry never refreshes, and Go trims the
+      # compiled Hugo objects out of it. This entry saves on every run,
+      # under a key that ends in the commit, and restores the newest
+      # entry for the same go.sum, so Hugo compiles once per bump.
+      - uses: actions/cache@v6
+        with:
+          path: ~/.cache/go-build
+          key: site-build-${{ runner.os }}-${{ hashFiles('go.sum') }}-${{ github.sha }}
+          restore-keys: site-build-${{ runner.os }}-${{ hashFiles('go.sum') }}-
 
       # The same command a workstation runs, so local and CI builds
       # produce the same tree. What this step writes to dist/site/
