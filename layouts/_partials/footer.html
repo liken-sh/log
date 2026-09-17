@@ -1,0 +1,8 @@
+<footer>
+  {{- /* The feed is how a devlog keeps its readers, so the footer
+  names it on every page, ahead of the page's Markdown twin. */}}
+  <a href="/atom.xml">Subscribe to the Atom feed</a>
+  {{ with .OutputFormats.Get "markdown" -}}
+  <a href="{{ .RelPermalink }}">This page as Markdown</a>
+  {{- end }}
+</footer>

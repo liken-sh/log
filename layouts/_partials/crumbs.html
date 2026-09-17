@@ -1,0 +1,8 @@
+{{ if not .IsHome }}
+{{- /* The devlog's breadcrumbs start at the year, not the site: the
+nav above already links home, and the site's name in every trail
+would be noise. */ -}}
+<nav class="crumbs">
+  {{ range .Ancestors.Reverse }}{{ if not .IsHome }}<a href="{{ .RelPermalink }}">{{ .Title }}</a> / {{ end }}{{ end }}<span aria-current="page">{{ .Title }}</span>
+</nav>
+{{ end }}

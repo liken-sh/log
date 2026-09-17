@@ -1,0 +1,18 @@
+{{- /* The devlog has no /docs section, so the theme's own sidebar
+would be empty. This one holds the log's navigation: the recent
+posts by title, the year archives, and the feed. The theme puts the
+manual grid on every page that has a sidebar. */ -}}
+<aside>
+  <p><a href="/"{{ if .IsHome }} aria-current="page"{{ end }}>liken devlog</a></p>
+  <ul>
+    {{ range first 10 site.RegularPages.ByDate.Reverse }}
+    <li><a href="{{ .RelPermalink }}" title="{{ .Title }}"{{ if eq $.Page .Page }} aria-current="page"{{ end }}><time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "01-02" }}</time> {{ .Title }}</a></li>
+    {{ end }}
+  </ul>
+  <p class="archive">archive:
+    {{- range site.Home.Sections.ByTitle.Reverse }}
+    <a href="{{ .RelPermalink }}"{{ if eq $.Page .Page }} aria-current="page"{{ end }}>{{ .Title }}</a>
+    {{- end }}
+  </p>
+  <p><a href="/atom.xml">subscribe</a></p>
+</aside>
