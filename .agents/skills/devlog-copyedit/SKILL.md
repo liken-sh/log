@@ -18,7 +18,7 @@ Do not move a post toward those rules.
   A sentence that breaks a house rule stays as Chris wrote it.
 - Cut or add a claim. If a claim is wrong, report it and leave it.
 - Make a test post, a placeholder, a sample sentence, or a stub with a
-  body. A stub holds front matter only.
+  body. A stub contains front matter only.
 
 ## What you do when Chris asks
 
