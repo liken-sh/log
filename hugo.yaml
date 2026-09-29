@@ -2,12 +2,17 @@
 # log.liken.sh. Chris writes every post; AGENTS.md carries the content
 # rule.
 #
-# The theme is the shared brand repository, taken as a git submodule
-# at themes/brand. It provides the page shell, the top nav, the mark,
-# and the stylesheet that every liken site uses, so this site reads
-# as part of the same family as liken.sh.
+# The theme is brand/, the brand component of the liken repository.
+# It provides the page shell, the top nav, the mark, and the
+# stylesheet that every liken site uses, so this site reads as part
+# of the same family as liken.sh.
+#
+# A git submodule checks out a whole repository, not one directory, so
+# the submodule at themes/liken holds all of liken. Hugo looks for a
+# theme by name under themesDir, so it reads themes/liken/brand.
 baseURL: https://log.liken.sh/
 title: liken devlog
+themesDir: themes/liken
 theme: brand
 
 # A year section's list page titles itself by its directory name.
@@ -60,7 +65,7 @@ module:
 # authored Markdown for agents and scripts. The two files land side
 # by side, so the Markdown twin of / is /index.md. The theme renders
 # the twin, but only when the site declares this format; without it,
-# the site builds as HTML alone (themes/brand/README.md).
+# the site builds as HTML alone (themes/liken/brand/README.md).
 # Atom is not one of Hugo's built-in media types, so the feed's type
 # is declared here and the output format below names it. baseName
 # atom with the xml suffix makes the file /atom.xml.

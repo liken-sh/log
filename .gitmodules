@@ -1,3 +1,4 @@
-[submodule "themes/brand"]
-	path = themes/brand
-	url = https://github.com/liken-sh/brand
+[submodule "themes/liken"]
+	path = themes/liken
+	url = https://github.com/liken-sh/liken
+	shallow = true

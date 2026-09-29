@@ -48,5 +48,8 @@ the `DD-` prefix. A backfilled post has `backfilled: <date written>`, and
 * `make build` renders the site to `dist/site`.
 * `make serve` runs a local live preview with drafts visible.
 
-The theme is the shared brand repository, taken as a git submodule at
-`themes/brand`, the same pattern the other `liken` sites use.
+The theme is `brand/` in the `liken` repository. A git submodule at
+`themes/liken` checks out that repository, and `hugo.yaml` sets
+`themesDir` so that Hugo reads the theme from `themes/liken/brand`. To
+take a newer theme, run `git submodule update --remote themes/liken`
+and commit the new pin.
