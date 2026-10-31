@@ -7,9 +7,7 @@
 
 module github.com/liken-sh/log
 
-go 1.26.5
-
-toolchain go1.27.0
+go 1.27.3
 
 tool github.com/gohugoio/hugo
 
