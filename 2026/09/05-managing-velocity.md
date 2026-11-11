@@ -66,7 +66,7 @@ The commit history of the new `library-operator` tells this story well. It was a
 twinkle in my eye in the last devlog, and now just 11 days later it feels better
 to me than Jellyfin or [Moonfin](https://moonfin.io/). In 2024, just the work
 that went into
-[choosing](https://github.com/liken-sh/library-operator/blob/main/plans/rejected/toolkits-other-than-iced.md)
+[choosing](https://github.com/liken-sh/liken/blob/main/library-operator/plans/rejected/toolkits-other-than-iced.md)
 the [`iced`](https://iced.rs/) UI toolkit alone would have been enough to make
 me quit this side project by now. Now the fun part to me is actually the pixel
 pushing and solving the hardest design questions.
@@ -81,11 +81,11 @@ world. I had a few conversations with my daughter about the best way to visually
 represent a multiversal timeline in narrative order, and we both agreed that
 this was a completely unsolved problem in all of the apps and streaming services
 we use. I made a number of
-[failed](https://github.com/liken-sh/library-operator/commit/1f93ec61dca5f4a58f35c5c50f9def20f05e3fde)
-[attempts](https://github.com/liken-sh/library-operator/commit/daed6ff26e11592beb8fcbecbaeb2366993daf4b)
+[failed](https://github.com/liken-sh/liken/commit/fcde57428aa4d8e62a985b30883694494de0ffc3)
+[attempts](https://github.com/liken-sh/liken/commit/5642a45e63a99627736ff39c83dda0fcce920f33)
 that I hated, then realized that I could send Claude Design to go out and make
 comps for me. It came up with the brilliant ["metro
-map"](https://github.com/liken-sh/library-operator/commit/610f60d7b1bcfff4135a8d787568259145d09ea2)
+map"](https://github.com/liken-sh/liken/commit/c0c05c1649a9bb15a3d5bc3c93787d881bc31310)
 design which we built out last night.
 
 ![The franchise page of the media browser, drawn as a metro map over the invented sample catalog](/images/franchise-metro-map.png)
